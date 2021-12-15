@@ -8,7 +8,7 @@ When running a program on a server, we often don't know when it stops.  Reminder
 
 #### Installation
 ```shell
-pip install email_reminder
+pip install emailreminder
 ```
 
 #### Getting Started
