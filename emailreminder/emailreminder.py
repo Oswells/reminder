@@ -22,11 +22,13 @@ class reminder():
         def do(*args, **kwargs):
             self.data['filepath'] = os.getcwdb()
             try:
+                error = None
                 result = func(*args, **kwargs)
-                self.post()
-                return result
+            except Exception as e:
+                error = str(e.__class__) + str(e)
             finally:
-                self.post(error=1)
+                self.post(error=error)
+                return result
         return do
 
     def post(self, error=None):
