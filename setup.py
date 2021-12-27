@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 
 if __name__ == '__main__':
-    version = '0.0.3'
+    version = '0.0.4'
     setup(
         name='emailreminder',
         version=version,

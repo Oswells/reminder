@@ -6,9 +6,9 @@ email = your_email
 def demo1(x):
     return x+x
 
-@reminder(email=email, url='https://www.zjunjie.top/email', language='en', name='demo2')
+@reminder(email=email, url='https://www.zjunjie.top/email', language='en', name='demo2', files=['../setup.py','../readme.md'])
 def demo2(x):
-    raise ValueError
+    raise ValueError('An example: raise ValueError')
 
 if __name__ == "__main__":
     print(demo1(3))

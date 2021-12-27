@@ -8,11 +8,18 @@ class reminder():
     def __init__(self, **kwargs):
         assert 'url' in kwargs.keys(), 'url should be given'
         assert 'email' in kwargs.keys(), 'email should be given'
+        assert '@' in kwargs['email'], f'The email address should have the correct format,got {kwargs["email"]}'
+        assert 'mode' not in kwargs.keys(), 'mode should not be given'
+        assert 'csrfmiddlewaretoken' not in kwargs.keys(), 'csrfmiddlewaretoken should not be given'
+        assert 'error' not in kwargs.keys(), 'error should not be given'
         if 'url' in kwargs.keys():
             setattr(self,'url',kwargs['url'])
         self.data = dict()
         for k,v in kwargs.items():
             if k == 'url':
+                continue
+            elif k == "files":
+                self.files = v
                 continue
             self.data[k] = v
         self.data['mode'] = 'remind'
@@ -26,9 +33,13 @@ class reminder():
                 result = func(*args, **kwargs)
             except Exception as e:
                 error = str(e.__class__) + str(e)
+                e_copy = e
             finally:
                 self.post(error=error)
-                return result
+                if error == None:
+                    return result
+                else:
+                    raise e_copy
         return do
 
     def post(self, error=None):
@@ -40,4 +51,14 @@ class reminder():
         self.data['csrfmiddlewaretoken'] = token
         if error != None:
             self.data['error'] = error
-        session.post(url=self.url, data=self.data, headers=session.headers, cookies=session.cookies)
+        files = dict()
+        if hasattr(self,"files"):
+            for file in self.files:
+                if os.path.isdir(file):
+                    for filename in os.listdir(file):
+                        if os.path.isfile(os.path.join(file,filename)):
+                            files[filename] = open(os.path.join(file,filename),'rb')
+                elif os.path.isfile(file):
+                    filename = file[file.rfind(os.sep)+1:]
+                    files[filename] = open(file,'rb')
+        session.post(url=self.url, data=self.data, headers=session.headers, cookies=session.cookies,files=files)
