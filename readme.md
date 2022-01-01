@@ -37,8 +37,9 @@ These parameters are optional for `reminder`.
 
 These parameters cannot be passed into `reminder` as parameters.
 + mode
-+ filepath
-+ error
++ FilePath
++ Error
++ CostTime
 + csrfmiddlewaretoken
 
 You can pass any other parameters into `reminder`, and all these parameters will appear in your eamil.
