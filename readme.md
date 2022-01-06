@@ -40,13 +40,14 @@ These parameters cannot be passed into `reminder` as parameters.
 + FilePath
 + Error
 + CostTime
++ Ppid
 + csrfmiddlewaretoken
 
 You can pass any other parameters into `reminder`, and all these parameters will appear in your eamil.
 
 #### Details
 I offer a free website:https://www.zjunjie.top/email. Of course, you can build your own website for personal use.
-The purpose of this decorator is to submit a POST request to the `url` with the data content of {'email':your_email, 'mode':'remind', 'filepath':os.getcwd(),'csrfmiddlewaretoken':csrftoken, 'error':error, ...}
+The purpose of this decorator is to submit a POST request to the `url` with the data content of {'email':your_email, 'mode':'remind', 'FilePath':os.getcwd(),'csrfmiddlewaretoken':csrftoken, 'Error':error, ...}
 
 #### TODO
 + Make email look better: Now I don't know how to send an email with CSS style, I add style, but it doesn't display properly. 

@@ -53,6 +53,7 @@ class reminder():
         session.get(self.url)
         token = session.cookies.get('csrftoken')
         self.data['csrfmiddlewaretoken'] = token
+        self.data['Ppid'] = os.getppid()
         self.post_error(error)
         self.post_time_cost()
         files = self.post_files()
