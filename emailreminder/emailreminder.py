@@ -18,6 +18,7 @@ class reminder():
         if 'url' in kwargs.keys():
             setattr(self,'url',kwargs['url'])
         self.data = dict()
+        self.ppid = os.getppid()
         for k,v in kwargs.items():
             if k == 'url':
                 continue
@@ -26,34 +27,43 @@ class reminder():
                 continue
             self.data[k] = v
         self.data['mode'] = 'remind'
+        if not os.path.exists('.emailreminder_'+str(self.ppid)):
+            open('.emailreminder_'+str(self.ppid),'a+')
         self.t1 = time.time()
+        
         
     def __call__(self, func):
         @wraps(func)
         def do(*args, **kwargs):
             self.data['FilePath'] = os.getcwdb()
             try:
-                error = None
+                error = 0
+                result = None
                 result = func(*args, **kwargs)
+                error = None
             except Exception as e:
                 error = str(e.__class__) + str(e)
                 e_copy = e
             finally:
-                self.post(error=error)
-                if error == None:
+                if os.path.exists('.emailreminder_'+str(self.ppid)):
+                    os.remove('.emailreminder_'+str(self.ppid))
+                    self.post(error=error, result=result)
+                if error is None:
                     return result
                 else:
                     raise e_copy
         return do
 
-    def post(self, error=None):
+    def post(self, error=None, result=None):
         session = requests.session()
         session.headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
                 'Chrome/51.0.2704.63 Safari/537.36','Referer':self.url}
         session.get(self.url)
         token = session.cookies.get('csrftoken')
         self.data['csrfmiddlewaretoken'] = token
-        self.data['Ppid'] = os.getppid()
+        self.data['Ppid'] = self.ppid
+        if isinstance(result, str):
+            self.data['result'] = result
         self.post_error(error)
         self.post_time_cost()
         files = self.post_files()
