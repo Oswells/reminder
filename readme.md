@@ -15,7 +15,7 @@ pip install emailreminder
 You simply add decorators `reminder` to the functions you care about.
 ```python
 # example
-from email_reminder import reminder
+from emailreminder import reminder
 @reminder(email=your_email, url='https://www.zjunjie.top/email', language='Chinese')
 def train():
     train code
