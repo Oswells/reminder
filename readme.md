@@ -16,7 +16,7 @@ You simply add decorators `reminder` to the functions you care about.
 ```python
 # example
 from emailreminder import reminder
-@reminder(email=your_email, url='https://www.zjunjie.top/email', language='Chinese')
+@reminder(email=your_email, url='https://www.zjunjie.com/email', language='Chinese')
 def train():
     train code
 
@@ -46,7 +46,7 @@ These parameters cannot be passed into `reminder` as parameters.
 You can pass any other parameters into `reminder`, and all these parameters will appear in your eamil.
 
 #### Details
-I offer a free website:https://www.zjunjie.top/email. Of course, you can build your own website for personal use.
+I offer a free website:https://www.zjunjie.com/email. Of course, you can build your own website for personal use.
 The purpose of this decorator is to submit a POST request to the `url` with the data content of {'email':your_email, 'mode':'remind', 'FilePath':os.getcwd(),'csrfmiddlewaretoken':csrftoken, 'Error':error, ...}
 
 #### TODO
